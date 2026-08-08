@@ -1,0 +1,5 @@
+export const GAME_DIMENSIONS = {
+  GAME_HEIGHT: 720,
+  GAME_WIDTH: 1280,
+  GRID_SIZE: 20,
+};

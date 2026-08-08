@@ -1,0 +1,17 @@
+{
+  "name": "codeknight",
+  "version": "1.0.0",
+  "description": "",
+  "main": "eslint.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "globals": "^17.9.0",
+    "typescript-eslint": "^8.66.0"
+  }
+}
