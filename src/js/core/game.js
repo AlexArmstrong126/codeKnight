@@ -2,57 +2,92 @@ import { RenderSystem } from '../systems/renderSystem.js';
 import { ResizeSystem } from '../systems/resizeSystem.js';
 import { Player } from '../entities/player.js';
 import { ImageManager } from '../managers/imageManager.js';
+import { AudioManager } from '../managers/audioManager.js';
+import { GAME_DIMENSIONS } from './constants.js';
+import { UIManager } from '../managers/uiManager.js';
+import { InputManager } from '../managers/inputManager.js';
 
 export class Game {
   constructor() {
     this.canvas = document.getElementById('gameCanvas');
-    this.ctx = this.canvas.getContext('2d');
     this.imageManager = new ImageManager();
-    this.imageManager.loadAll();
     this.renderSystem = new RenderSystem(this.canvas, this.imageManager);
     this.resizeCanvas = new ResizeSystem(this.canvas);
     this.player = new Player();
+    this.audioManager = new AudioManager();
+    this.uiManager = new UIManager(this);
+    this.inputManager = new InputManager(this);
+    this.state = {
+      gameState: 'menu',
+    };
 
     this.keys = {};
-    this.lastTime;
+    this.time = 0;
+    this.lastTime = 0;
 
     this.init();
   }
 
-  init() {
+  async init() {
+    await Promise.all([
+      this.imageManager.loadAll(),
+      this.audioManager.loadAll(),
+    ]);
+    this.uiManager.showPanel('mainMenu');
     this.resizeCanvas.resize();
     window.addEventListener('resize', () => this.resizeCanvas.resize());
-    this.setupInput();
+    this.uiManager.setUpEventListeners();
 
     this.lastTime = performance.now();
     requestAnimationFrame(t => this.gameLoop(t));
   }
   update(deltaTime) {
+    if (this.state.gameState !== 'playing') return;
     this.player.update(deltaTime, this.keys);
   }
+
+  startGame() {
+    this.state = {
+      gameState: 'playing',
+    };
+    this.uiManager.hideAllPanels();
+    this.time = 0;
+    this.uiManager.showTimer();
+
+    // Reset Player Position
+    this.player.resetPlayer();
+
+    this.lastTime = performance.now();
+  }
+  pause() {
+    this.state.gameState = 'paused';
+    this.audioManager.play('bonus');
+    this.uiManager.showPanel('pauseMenu');
+  }
+  resume() {
+    this.state.gameState = 'playing';
+    this.audioManager.play('bonus');
+
+    this.uiManager.hideAllPanels();
+  }
+  returnToMenu() {
+    this.state.gameState = 'menu';
+    this.uiManager.hideTimer();
+    this.uiManager.showPanel('mainMenu');
+  }
   gameLoop(timeStamp) {
+    if (this.lastTime === 0) {
+      this.lastTime = timeStamp;
+    }
     const deltaTime = Math.min((timeStamp - this.lastTime) / 1000, 0.1);
     this.lastTime = timeStamp;
+
+    if (this.state.gameState === 'playing') {
+      this.time += deltaTime;
+      this.uiManager.updateTimer(this.time);
+    }
     this.update(deltaTime);
-    // console.log('Animating', timeStamp / 1000);
-    this.renderSystem.render(this.player);
+    this.renderSystem.render(this.state, this.player);
     requestAnimationFrame(t => this.gameLoop(t));
-  }
-  setupInput() {
-    window.addEventListener('keydown', e => {
-      this.keys[e.key.toLowerCase()] = true;
-    });
-    window.addEventListener('keyup', e => {
-      this.keys[e.key.toLowerCase()] = false;
-    });
-
-    //clear all key values when context opens
-    window.addEventListener('contextmenu', () => {
-      this.keys = {};
-    });
-
-    window.addEventListener('blue', () => {
-      this.keys = {};
-    });
   }
 }

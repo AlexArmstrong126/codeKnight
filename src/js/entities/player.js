@@ -9,6 +9,13 @@ export class Player {
     this.speed = 150; // Pixels Per Seconds
     this.speedMultiplier = 1;
   }
+  resetPlayer() {
+    this.x = (GAME_DIMENSIONS.GAME_WIDTH - this.width) / 2;
+    this.y = (GAME_DIMENSIONS.GAME_HEIGHT - this.height) / 2;
+
+    this.speed = 150; // Pixels Per Seconds
+    this.speedMultiplier = 1;
+  }
   update(deltaTime, keys) {
     let dx = 0;
     let dy = 0;

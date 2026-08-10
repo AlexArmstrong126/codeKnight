@@ -9,6 +9,29 @@
   <body>
     <div id="gameContainer">
       <canvas id="gameCanvas"></canvas>
+
+      <!-- TODO, use js to conditionally add these when needed, not active each time? -->
+      <!-- Timer -->
+      <div id="timer">0.00</div>
+      <!-- Main Menu Panel -->
+      <div id="mainMenu" class="ui-panel">
+        <h1>Game Started</h1>
+        <button id="playBtn">Enter</button>
+        <button id="playBtn">GoToCV</button>
+      </div>
+
+      <!-- Pause Panel -->
+      <div id="pauseMenu" class="ui-panel">
+        <h2>PAUSED</h2>
+        <button id="resumeBtn">Resume</button>
+        <button id="quitBtn">QUIT TO MENU</button>
+      </div>
+
+      <!-- Loading Screen -->
+      <div id="loadingScreen" class="ui-panel active">
+        <h2>Loading</h2>
+        <p>adding</p>
+      </div>
     </div>
     <script type="module" src="./src/js/main.js"></script>
   </body>

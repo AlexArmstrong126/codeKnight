@@ -8,32 +8,35 @@ export class RenderSystem {
     this.imageManager = imageManager;
   }
 
-  render(player) {
-    //background
-    this.ctx.fillStyle = 'red';
-    this.ctx.fillRect(
-      0,
-      0,
-      GAME_DIMENSIONS.GAME_WIDTH,
-      GAME_DIMENSIONS.GAME_HEIGHT,
-    );
-    this.renderGrid();
-    this.renderPlayer(player);
+  render(state, player) {
+    if (state == 'menu') {
+      this.renderMenuBackGround();
+    } else {
+      //background
+      this.ctx.fillStyle = 'red';
+      this.ctx.fillRect(
+        0,
+        0,
+        GAME_DIMENSIONS.GAME_WIDTH,
+        GAME_DIMENSIONS.GAME_HEIGHT,
+      );
+      this.renderGrid();
+      this.renderPlayer(player);
+    }
   }
 
   renderGrid() {
     this.ctx.strokeStyle = 'black';
     this.ctx.lineWidth = 1;
+    this.ctx.beginPath();
 
     for (
       let i = 0;
       i < GAME_DIMENSIONS.GAME_WIDTH;
       i += GAME_DIMENSIONS.GRID_SIZE
     ) {
-      this.ctx.beginPath();
       this.ctx.moveTo(i, 0);
       this.ctx.lineTo(i, GAME_DIMENSIONS.GAME_HEIGHT);
-      this.ctx.stroke();
     }
 
     for (
@@ -41,11 +44,10 @@ export class RenderSystem {
       i < GAME_DIMENSIONS.GAME_HEIGHT;
       i += GAME_DIMENSIONS.GRID_SIZE
     ) {
-      this.ctx.beginPath();
       this.ctx.moveTo(0, i);
       this.ctx.lineTo(GAME_DIMENSIONS.GAME_WIDTH, i);
-      this.ctx.stroke();
     }
+    this.ctx.stroke();
   }
 
   renderPlayer(player) {
@@ -77,5 +79,9 @@ export class RenderSystem {
         this.ctx.strokeRect(player.x, player.y, player.width, player.height);
       }
     }
+  }
+  renderMenuBackGround() {
+    this.ctx.fillStyle = 'red';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 }
