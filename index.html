@@ -10,9 +10,16 @@
     <div id="gameContainer">
       <canvas id="gameCanvas"></canvas>
 
+      <!-- HUD -->
+      <div id="hud">
+        <div id="timer">0.00</div>
+        <div id="healthBarContainer">
+          <div id="healthBarFill"></div>
+        </div>
+      </div>
+
       <!-- TODO, use js to conditionally add these when needed, not active each time? -->
       <!-- Timer -->
-      <div id="timer">0.00</div>
       <!-- Main Menu Panel -->
       <div id="mainMenu" class="ui-panel">
         <h1>Game Started</h1>
@@ -31,6 +38,13 @@
       <div id="loadingScreen" class="ui-panel active">
         <h2>Loading</h2>
         <p>adding</p>
+      </div>
+
+      <!-- Game Over Screen -->
+      <div id="gameOverMenu" class="ui-panel">
+        <h2>GAME OVER</h2>
+        <button id="playAgainBtn">Retry</button>
+        <button id="quitFromGameOverBtn">QUIT TO MENU</button>
       </div>
     </div>
     <script type="module" src="./src/js/main.js"></script>
