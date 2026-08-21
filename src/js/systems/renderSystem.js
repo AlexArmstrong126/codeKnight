@@ -1,4 +1,4 @@
-import { GAME_DIMENSIONS } from '../core/constants.js';
+import { GAME_DIMENSIONS, GAME_STATE } from '../core/constants.js';
 
 export class RenderSystem {
   constructor(canvas, imageManager) {
@@ -8,8 +8,8 @@ export class RenderSystem {
     this.imageManager = imageManager;
   }
 
-  render(state, player) {
-    if (state == 'menu') {
+  render(state, player, enemies = []) {
+    if (state == GAME_STATE.MENU) {
       this.renderMenuBackGround();
     } else {
       //background
@@ -21,6 +21,7 @@ export class RenderSystem {
         GAME_DIMENSIONS.GAME_HEIGHT,
       );
       this.renderGrid();
+      this.renderEnemies(enemies);
       this.renderPlayer(player);
     }
   }
@@ -51,7 +52,12 @@ export class RenderSystem {
   }
 
   renderPlayer(player) {
-    const playerImage = this.imageManager.get('knights');
+    const playerImage = this.imageManager.get('knight');
+
+    if (player.invincible) {
+      this.ctx.globalAlpha =
+        0.2 + 0.6 * Math.abs(Math.sin(player.invinciblityTimer * 10));
+    }
 
     if (playerImage) {
       this.ctx.drawImage(
@@ -62,7 +68,7 @@ export class RenderSystem {
         player.height,
       );
     } else {
-      const placeHolderImage = this.imageManager.get('placeHolder_Skeleton');
+      const placeHolderImage = this.imageManager.get('skeleton_axe_right');
 
       if (placeHolderImage) {
         this.ctx.drawImage(
@@ -79,9 +85,43 @@ export class RenderSystem {
         this.ctx.strokeRect(player.x, player.y, player.width, player.height);
       }
     }
+    this.ctx.globalAlpha = 1;
+  }
+  renderEnemies(enemies) {
+    for (let i = 0; i < enemies.length; i++) {
+      const enemy = enemies[i];
+      const enemyAsset = this.imageManager.get(enemy.data.imageName);
+      if (enemyAsset) {
+        //TODO: THIS NEEDS FIXED
+        this.ctx.save();
+        if (enemy.facingLeft) {
+          this.ctx.translate(enemy.x + enemy.width, enemy.y);
+          this.ctx.scale(-1, 1);
+          this.ctx.drawImage(enemyAsset, 0, 0, enemy.width, enemy.height);
+        } else {
+          this.ctx.drawImage(
+            enemyAsset,
+            enemy.x,
+            enemy.y,
+            enemy.width,
+            enemy.height,
+          );
+        }
+        this.ctx.restore();
+      } else {
+        console.warn(
+          `Cannot Draw Image ${enemyAsset} is not loaded or does not exist`,
+        );
+      }
+    }
   }
   renderMenuBackGround() {
     this.ctx.fillStyle = 'red';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillRect(
+      0,
+      0,
+      GAME_DIMENSIONS.GAME_WIDTH,
+      GAME_DIMENSIONS.GAME_HEIGHT,
+    );
   }
 }

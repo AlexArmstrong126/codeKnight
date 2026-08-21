@@ -1,7 +1,7 @@
 // TODO
 // Make the sounds have the ability to loop
 // Start sound from any point
-
+import { audioData } from '../data/audioData.js';
 export class AudioManager {
   constructor() {
     this.sounds = {};
@@ -14,7 +14,7 @@ export class AudioManager {
 
       audio.onloadeddata = () => {
         this.sounds[name].loaded = true;
-        console.log(`Audio ${name} is loaded`);
+        console.log(`[DEV] Audio ${name} is loaded`);
 
         resolve();
       };
@@ -26,8 +26,8 @@ export class AudioManager {
     });
   }
   play(name) {
-    const sound = this.sounds[name];
-    if (sound && sound.loaded) {
+    const sound = this.sounds[name]?.loaded ? this.sounds[name] : null;
+    if (sound) {
       sound.audio.currentTime = 0;
       sound.audio.play().catch(err => {
         console.log(`Could Not Play Audio ${name}`, err);
@@ -36,10 +36,9 @@ export class AudioManager {
   }
   async loadAll() {
     await Promise.all([
-      this.load('button_click', './src/audio/button_click.mp3'),
-      this.load('bonus', './src/audio/bonus.mp3'),
-      this.load('main_menu', './src/audio/main_menu.mp3'),
-      this.load('sword_slash', './src/audio/sword_slash.mp3'),
+      audioData.map(({ name, path }) => {
+        this.load(name, path);
+      }),
     ]);
   }
 }

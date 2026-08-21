@@ -1,51 +1,88 @@
+import { GAME_EVENTS } from '../core/constants.js';
 export class UIManager {
-  constructor(game) {
-    this.game = game;
+  constructor(events) {
+    this.events = events;
+
+    // HUD
+    this.hudEl = document.getElementById('hud');
+    this.healthBarFillEl = document.getElementById('healthBarFill');
+    this.timerEl = document.getElementById('timer');
+
+    // UI Panels
+    this.mainMenuEl = document.getElementById('mainMenu');
+    this.pauseMenuEl = document.getElementById('pauseMenu');
+    this.loadingScreenEl = document.getElementById('loadingScreen');
+    this.gameOverMenuEl = document.getElementById('gameOverMenu');
+
+    // Buttons
+    this.playBtn = document.getElementById('playBtn');
+    this.playAgainBtn = document.getElementById('playAgainBtn');
+    this.resumeBtn = document.getElementById('resumeBtn');
+    this.quitBtn = document.getElementById('quitBtn');
+    this.quitFromGameOverBtn = document.getElementById('quitFromGameOverBtn');
+
     this.setUpEventListeners();
   }
   setUpEventListeners() {
-    document.getElementById('playBtn').onclick = () => {
-      return this.game.startGame();
-    };
-    document.getElementById('resumeBtn').onclick = () => {
-      return this.game.resume();
-    };
-    document.getElementById('quitBtn').onclick = () => {
-      return this.game.returnToMenu();
-    };
-    document.querySelectorAll('button').forEach(btn => {
-      btn.onmouseenter = () => {
-        this.game.audioManager.play('button_click');
-      };
+    this.playBtn?.addEventListener('click', () =>
+      this.events.emit(GAME_EVENTS.GAME_START),
+    );
+    this.playAgainBtn?.addEventListener('click', () =>
+      this.events.emit(GAME_EVENTS.GAME_START),
+    );
+    this.resumeBtn?.addEventListener('click', () =>
+      this.events.emit(GAME_EVENTS.GAME_RESUME),
+    );
+    this.quitBtn?.addEventListener('click', () =>
+      this.events.emit(GAME_EVENTS.GAME_RETURN_TO_MENU),
+    );
+    this.quitFromGameOverBtn?.addEventListener('click', () =>
+      this.events.emit(GAME_EVENTS.GAME_RETURN_TO_MENU),
+    );
+    [
+      this.playBtn,
+      this.resumeBtn,
+      this.quitBtn,
+      this.playAgainBtn,
+      this.quitFromGameOverBtn,
+    ].forEach(btn => {
+      // btn?.addEventListener('mouseenter', () =>
+      //   this.events.emit(GAME_EVENTS.SOUND, 'button_click'),
+      // );
     });
   }
   hideAllPanels() {
-    document
-      .querySelectorAll('.ui-panel')
-      .forEach(p => p.classList.remove('active'));
+    [
+      this.mainMenuEl,
+      this.pauseMenuEl,
+      this.loadingScreenEl,
+      this.gameOverMenuEl,
+    ].forEach(p => p?.classList.remove('active'));
   }
   showPanel(panelId) {
     this.hideAllPanels();
-    document.getElementById(panelId).classList.add('active');
+    this[`${panelId}El`]?.classList.add('active');
   }
-  showTimer() {
-    const timerElement = document.getElementById('timer');
-    if (timerElement) {
-      timerElement.style.display = 'block';
+  showHUD() {
+    if (this.hudEl) {
+      this.hudEl.style.display = 'block';
     }
   }
-  hideTimer() {
-    const timerElement = document.getElementById('timer');
-    if (timerElement) {
-      timerElement.style.display = 'none';
+  hideHUD() {
+    if (this.hudEl) {
+      this.hudEl.style.display = 'none';
     }
   }
   updateTimer(time) {
+    if (!this.timerEl) return;
     const mins = Math.floor(time / 60);
     const secs = Math.floor(time % 60);
-    const timerElement = document.getElementById('timer');
-    if (timerElement) {
-      timerElement.textContent = `${mins} : ${String(secs).padStart(2, '0')}`;
-    }
+    this.timerEl.textContent = `${mins} : ${String(secs).padStart(2, '0')}`;
+  }
+  updateHealthBar(health, maxHealth) {
+    if (!this.healthBarFillEl) return;
+
+    const pct = Math.max(0, health / maxHealth);
+    this.healthBarFillEl.style.setProperty('--health-pct', pct);
   }
 }

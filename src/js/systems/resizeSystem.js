@@ -1,4 +1,8 @@
-import { GAME_DIMENSIONS } from '../core/constants.js';
+import {
+  GAME_DIMENSIONS,
+  ASPECT_RATIO,
+  CANVAS_MARGIN,
+} from '../core/constants.js';
 
 export class ResizeSystem {
   constructor(canvas) {
@@ -6,21 +10,18 @@ export class ResizeSystem {
   }
 
   resize() {
-    const ratio = 16 / 9;
     let w;
     let h;
 
-    const canvasMargin = 15;
+    const availableWidth = window.innerWidth - CANVAS_MARGIN * 2;
+    const availableHeight = window.innerHeight - CANVAS_MARGIN * 2;
 
-    const availableWidth = window.innerWidth - canvasMargin * 2;
-    const availableHeight = window.innerHeight - canvasMargin * 2;
-
-    if (availableWidth / availableHeight > ratio) {
+    if (availableWidth / availableHeight > ASPECT_RATIO) {
       h = availableHeight;
-      w = h * ratio;
+      w = h * ASPECT_RATIO;
     } else {
       w = availableWidth;
-      h = w / ratio;
+      h = w / ASPECT_RATIO;
     }
 
     this.canvas.width = GAME_DIMENSIONS.GAME_WIDTH;
@@ -28,6 +29,6 @@ export class ResizeSystem {
 
     this.canvas.style.width = w + 'px';
     this.canvas.style.height = h + 'px';
-    this.canvas.style.margin = `${canvasMargin}px`;
+    this.canvas.style.margin = `${CANVAS_MARGIN}px`;
   }
 }
