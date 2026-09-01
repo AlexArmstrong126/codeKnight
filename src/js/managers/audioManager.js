@@ -25,7 +25,7 @@ export class AudioManager {
 
       audio.onloadeddata = () => {
         this.sounds[name].loaded = true;
-        // console.log(`[DEV] Audio ${name} is loaded`);
+        console.log(`[DEV] Audio ${name} is loaded`);
 
         resolve();
       };
@@ -36,21 +36,33 @@ export class AudioManager {
       };
     });
   }
-  play(name) {
+  play(name, volume = 1) {
     if (!name) return;
     const sound = this.sounds[name]?.loaded ? this.sounds[name] : null;
     if (sound) {
       sound.audio.currentTime = 0;
+      sound.audio.volume = volume;
       sound.audio.play().catch(err => {
         console.log(`Could Not Play Audio ${name}`, err);
       });
     }
   }
+  playDialogueBleep(name, { volume = 0.2, pitch = 1 } = {}) {
+    if (!name) return;
+
+    const sound = this.sounds[name];
+
+    if (!sound?.loaded) return;
+
+    sound.audio.volume = volume;
+    sound.audio.playbackRate = pitch;
+
+    // Don't let the browser compensate for pitch changes.
+    sound.audio.preservesPitch = false;
+
+    sound.audio.play().catch(() => {});
+  }
   async loadAll() {
-    await Promise.all([
-      audioData.map(({ name, path }) => {
-        this.load(name, path);
-      }),
-    ]);
+    await Promise.all(audioData.map(({ name, path }) => this.load(name, path)));
   }
 }
