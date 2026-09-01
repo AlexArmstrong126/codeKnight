@@ -26,7 +26,7 @@ export class Player {
   }
   resetPlayer() {
     this.x = this.spawnX;
-    this.y = this.spa;
+    this.y = this.spawnY;
 
     this.speed = playerData.speed; // Pixels Per Seconds
     this.speedMultiplier = 1;
