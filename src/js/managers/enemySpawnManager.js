@@ -34,7 +34,7 @@ export class EnemySpawnManager {
         y = -ENEMY_SPAWN.SPAWN_MARGIN;
         break;
       case 1: // Right
-        x = GAME_DIMENSIONS.GAME_WIDTH * ENEMY_SPAWN.SPAWN_MARGIN;
+        x = GAME_DIMENSIONS.GAME_WIDTH + ENEMY_SPAWN.SPAWN_MARGIN;
         y = Math.random() * GAME_DIMENSIONS.GAME_HEIGHT;
         break;
       case 2: // Bottom

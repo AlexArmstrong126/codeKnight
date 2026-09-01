@@ -28,16 +28,5 @@ export class CameraManager {
     this.cameraX = Math.max(0, Math.min(this.maxCameraX, targetCameraX));
 
     this.cameraY = Math.max(0, Math.min(this.maxCameraY, targetCameraY));
-
-    // Keep the PLAYER inside the map
-    player.x = Math.max(
-      0,
-      Math.min(this.map.fullImage.width - player.width, player.x),
-    );
-
-    player.y = Math.max(
-      0,
-      Math.min(this.map.fullImage.height - player.height, player.y),
-    );
   }
 }

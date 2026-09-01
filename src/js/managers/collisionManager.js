@@ -2,9 +2,10 @@ import { GAME_EVENTS } from '../core/constants.js';
 import { getPythagorus } from '../utils/getPythagorus.js';
 
 export class CollisionManager {
-  constructor(collisionSystem, events) {
+  constructor(collisionSystem, events, camera) {
     this.collisionSystem = collisionSystem;
     this.events = events;
+    this.camera = camera;
   }
   update(player, enemy) {
     this.checkPlayerVsEnemies(player, enemy);
@@ -16,12 +17,13 @@ export class CollisionManager {
       }
       if (this.collisionSystem.checkCircleCircle(player, enemy)) {
         const dx = player.x + player.width / 2 - (enemy.x + enemy.width / 2);
-        const dy = player.x + player.height / 2 - (enemy.y + enemy.height / 2);
+
+        const dy = player.y + player.height / 2 - (enemy.y + enemy.height / 2);
 
         const dist = getPythagorus(dx, dy);
 
-        const nx = dist < 0 ? dx / dist : 1;
-        const ny = dist < 0 ? dy / dist : 0;
+        const nx = dist > 0 ? dx / dist : 1;
+        const ny = dist > 0 ? dy / dist : 0;
 
         const enemyDamageApplied = enemy.takeDamage(player.collisionDamage);
 

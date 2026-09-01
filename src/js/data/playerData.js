@@ -8,4 +8,10 @@ export const playerData = {
   maxHealth: 100,
   invincibilityDuration: 4,
   pushbackForce: 500,
+  startingPosition: {
+    level1: {
+      spawnX: 200,
+      spawnY: 200,
+    },
+  },
 };

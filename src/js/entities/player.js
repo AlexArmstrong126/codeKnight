@@ -2,7 +2,8 @@ import { GAME_DIMENSIONS, PUSHBACK_DECAY } from '../core/constants.js';
 import { playerData } from '../data/playerData.js';
 import { getPythagorus } from '../utils/getPythagorus.js';
 export class Player {
-  constructor() {
+  constructor(map) {
+    this.map = map;
     this.width = playerData.width;
     this.height = playerData.height;
     this.collisionRadius = playerData.collisionRadius;
@@ -16,14 +17,16 @@ export class Player {
     this.maxHealth = playerData.maxHealth;
     this.speedMultiplier = 1;
     this.health = playerData.maxHealth;
+    this.spawnX = playerData.startingPosition.level1.spawnX;
+    this.spawnY = playerData.startingPosition.level1.spawnY;
 
     this.pushbackForce = playerData.pushbackForce;
     this.pushVx = 0;
     this.pushVy = 0;
   }
   resetPlayer() {
-    this.x = (GAME_DIMENSIONS.GAME_WIDTH - this.width) / 2;
-    this.y = (GAME_DIMENSIONS.GAME_HEIGHT - this.height) / 2;
+    this.x = this.spawnX;
+    this.y = this.spawnY;
 
     this.speed = playerData.speed; // Pixels Per Seconds
     this.speedMultiplier = 1;
@@ -77,15 +80,17 @@ export class Player {
       this.y += dy * this.speed * this.speedMultiplier * deltaTime;
     }
 
-    //keep player
-    // this.x = Math.max(
-    //   0,
-    //   Math.min(GAME_DIMENSIONS.GAME_WIDTH - this.width, this.x),
-    // );
-    // this.y = Math.max(
-    //   0,
-    //   Math.min(GAME_DIMENSIONS.GAME_HEIGHT - this.height, this.y),
-    // );
+    // Keep the PLAYER inside the map
+
+    this.x = Math.max(
+      0,
+      Math.min(this.map.fullImage.width - this.width, this.x),
+    );
+
+    this.y = Math.max(
+      0,
+      Math.min(this.map.fullImage.height - this.height, this.y),
+    );
   }
   applyPushback(dirX, dirY, force) {
     this.pushVx = dirX * force;

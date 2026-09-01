@@ -22,18 +22,19 @@ export class Game {
     this.collisionSystem = new CollisionSystem();
 
     // Managers
+    this.mapManager = new MapManager();
+    this.cameraManager = new CameraManager(this.mapManager);
     this.imageManager = new ImageManager();
     this.audioManager = new AudioManager(this.events);
     this.uiManager = new UIManager(this.events);
     this.inputManager = new InputManager(this);
-    this.enemyManager = new EnemyManager(this.events);
+    this.enemyManager = new EnemyManager(this.events, this.cameraManager);
     this.enemySpawnManager = new EnemySpawnManager(this.enemyManager);
     this.collisionManager = new CollisionManager(
       this.collisionSystem,
       this.events,
+      this.cameraManager,
     );
-    this.mapManager = new MapManager();
-    this.cameraManager = new CameraManager(this.mapManager);
 
     //  Systems
     this.renderSystem = new RenderSystem(
@@ -44,7 +45,7 @@ export class Game {
     );
     this.resizeCanvas = new ResizeSystem(this.canvas);
 
-    this.player = new Player();
+    this.player = new Player(this.mapManager);
 
     // State
     this.state = {
@@ -106,12 +107,16 @@ export class Game {
   }
   update(deltaTime, activeEnemies) {
     if (this.state.gameState !== GAME_STATE.PLAYING) return;
+
     this.player.update(deltaTime, this.keys);
+
+    this.enemySpawnManager.update(deltaTime);
+
+    this.enemyManager.update(deltaTime, this.player);
+
     this.cameraManager.moveCamera(deltaTime, this.player);
 
     this.collisionManager.update(this.player, activeEnemies);
-    this.enemyManager.update(deltaTime, this.player);
-    // this.enemySpawnManager.update(deltaTime);
   }
 
   startGame() {

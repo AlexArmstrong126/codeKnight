@@ -43,8 +43,12 @@ export class RenderSystem {
   }
   renderEnemyHealthBar(enemy) {
     const percent = enemy.health / enemy.data.health;
-    const x = enemy.x;
-    const y = enemy.y - ENEMY_HEALTH_BAR_OFFSET - ENEMY_HEALTH_BAR_HEIGHT;
+    const x = enemy.x - this.cameraManager.cameraX;
+    const y =
+      enemy.y -
+      this.cameraManager.cameraY -
+      ENEMY_HEALTH_BAR_OFFSET -
+      ENEMY_HEALTH_BAR_HEIGHT;
     const w = enemy.width;
     this.ctx.fillStyle = ENEMY_HEALTH_BAR_BG;
     this.ctx.fillRect(x, y, w, ENEMY_HEALTH_BAR_HEIGHT);
@@ -134,14 +138,17 @@ export class RenderSystem {
         //TODO: THIS NEEDS FIXED
         this.ctx.save();
         if (enemy.facingLeft) {
-          this.ctx.translate(enemy.x + enemy.width, enemy.y);
+          this.ctx.translate(
+            enemy.x - this.cameraManager.cameraX + enemy.width,
+            enemy.y,
+          );
           this.ctx.scale(-1, 1);
           this.ctx.drawImage(enemyAsset, 0, 0, enemy.width, enemy.height);
         } else {
           this.ctx.drawImage(
             enemyAsset,
-            enemy.x,
-            enemy.y,
+            enemy.x - this.cameraManager.cameraX,
+            enemy.y - this.cameraManager.cameraY,
             enemy.width,
             enemy.height,
           );
@@ -175,8 +182,8 @@ export class RenderSystem {
     this.ctx.strokeStyle = 'red';
     this.ctx.beginPath();
     this.ctx.arc(
-      player.x + player.width / 2,
-      player.y + player.height / 2,
+      player.x - this.cameraManager.cameraX + player.width / 2,
+      player.y - this.cameraManager.cameraY + player.height / 2,
       player.collisionRadius,
       0,
       Math.PI * 2,
@@ -221,7 +228,12 @@ export class RenderSystem {
     this.ctx.save();
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = 'blue';
-    this.ctx.strokeRect(player.x, player.y, player.width, player.height);
+    this.ctx.strokeRect(
+      player.x - this.cameraManager.cameraX,
+      player.y - this.cameraManager.cameraY,
+      player.width,
+      player.height,
+    );
 
     this.ctx.restore();
   }
