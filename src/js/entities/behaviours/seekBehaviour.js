@@ -1,19 +1,9 @@
 import { getPythagorus } from '../../utils/getPythagorus.js';
 export class SeekBehaviour {
-  constructor(camera) {
-    this.camera = camera;
-  }
+  constructor() {}
   update(enemy, dt, player) {
-    const dx =
-      player.x -
-      -this.camera.cameraX +
-      player.width / 2 -
-      (enemy.x + enemy.width / 2);
-    const dy =
-      player.y -
-      this.camera.cameraY +
-      player.height / 2 -
-      (enemy.y + enemy.height / 2);
+    const dx = player.x + player.width / 2 - (enemy.x + enemy.width / 2);
+    const dy = player.y + player.height / 2 - (enemy.y + enemy.height / 2);
     const len = getPythagorus(dx, dy);
 
     if (len > 0) {

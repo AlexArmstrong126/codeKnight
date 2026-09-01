@@ -2,10 +2,9 @@ import { GAME_EVENTS } from '../core/constants.js';
 import { getPythagorus } from '../utils/getPythagorus.js';
 
 export class CollisionManager {
-  constructor(collisionSystem, events, camera) {
+  constructor(collisionSystem, events) {
     this.collisionSystem = collisionSystem;
     this.events = events;
-    this.camera = camera;
   }
   update(player, enemy) {
     this.checkPlayerVsEnemies(player, enemy);

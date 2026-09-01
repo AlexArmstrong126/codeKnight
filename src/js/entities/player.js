@@ -7,8 +7,10 @@ export class Player {
     this.width = playerData.width;
     this.height = playerData.height;
     this.collisionRadius = playerData.collisionRadius;
-    this.x = (GAME_DIMENSIONS.GAME_WIDTH - this.width) / 2;
-    this.y = (GAME_DIMENSIONS.GAME_HEIGHT - this.height) / 2;
+    this.spawnX = playerData.startingPosition.level1.spawnX;
+    this.spawnY = playerData.startingPosition.level1.spawnY;
+    this.x = this.spawnX;
+    this.y = this.spawnY;
     this.invincibilityDuration = playerData.invincibilityDuration;
     this.invincible = false;
     this.invincibilityTimer = 0;
@@ -17,8 +19,6 @@ export class Player {
     this.maxHealth = playerData.maxHealth;
     this.speedMultiplier = 1;
     this.health = playerData.maxHealth;
-    this.spawnX = playerData.startingPosition.level1.spawnX;
-    this.spawnY = playerData.startingPosition.level1.spawnY;
 
     this.pushbackForce = playerData.pushbackForce;
     this.pushVx = 0;
@@ -26,7 +26,7 @@ export class Player {
   }
   resetPlayer() {
     this.x = this.spawnX;
-    this.y = this.spawnY;
+    this.y = this.spa;
 
     this.speed = playerData.speed; // Pixels Per Seconds
     this.speedMultiplier = 1;

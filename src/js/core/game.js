@@ -28,12 +28,11 @@ export class Game {
     this.audioManager = new AudioManager(this.events);
     this.uiManager = new UIManager(this.events);
     this.inputManager = new InputManager(this);
-    this.enemyManager = new EnemyManager(this.events, this.cameraManager);
+    this.enemyManager = new EnemyManager(this.events);
     this.enemySpawnManager = new EnemySpawnManager(this.enemyManager);
     this.collisionManager = new CollisionManager(
       this.collisionSystem,
       this.events,
-      this.cameraManager,
     );
 
     //  Systems
@@ -111,12 +110,11 @@ export class Game {
     this.player.update(deltaTime, this.keys);
 
     this.enemySpawnManager.update(deltaTime);
-
     this.enemyManager.update(deltaTime, this.player);
 
-    this.cameraManager.moveCamera(deltaTime, this.player);
-
     this.collisionManager.update(this.player, activeEnemies);
+
+    this.cameraManager.moveCamera(deltaTime, this.player);
   }
 
   startGame() {
@@ -136,7 +134,7 @@ export class Game {
 
     this.lastTime = performance.now();
   }
-  z;
+
   pause() {
     this.state.gameState = GAME_STATE.PAUSED;
     // this.events.emit(GAME_EVENTS.SOUND, 'bonus');

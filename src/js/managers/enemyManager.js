@@ -4,16 +4,15 @@ import { ObjectPooler } from '../utils/objectPooler.js';
 import { BehaviourFactory } from '../entities/behaviours/behaviourFactory.js';
 import { GAME_EVENTS } from '../core/constants.js';
 export class EnemyManager {
-  constructor(events, camera) {
+  constructor(events) {
     this.pools = {};
     this.events = events;
-    this.camera = camera;
     const enemyPoolSize = 10;
 
     for (const type in enemyData) {
       this.pools[type] = new ObjectPooler(() => {
         const data = enemyData[type];
-        const behaviour = BehaviourFactory.create(data.behaviourType, camera);
+        const behaviour = BehaviourFactory.create(data.behaviourType);
         return new Enemy(data, behaviour);
       }, enemyPoolSize);
     }
