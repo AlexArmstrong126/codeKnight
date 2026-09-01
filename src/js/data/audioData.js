@@ -10,4 +10,13 @@ export const audioData = [
   // Enemy Sounds
   { name: 'enemy_hurt_1', path: './src/audio/enemy_hurt_1.mp3' },
   { name: 'enemy_hurt_2', path: './src/audio/enemy_hurt_2.mp3' },
+
+  ...Array.from({ length: 30 }, (_, index) => {
+    const number = String(index + 1).padStart(3, '0');
+
+    return {
+      name: `bleep${number}`,
+      path: `./src/audio/dialogue/bleep${number}.mp3`,
+    };
+  }),
 ];
