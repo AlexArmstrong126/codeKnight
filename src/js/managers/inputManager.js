@@ -19,6 +19,14 @@ export class InputManager {
           this.game.resume();
         }
       }
+      if (e.code === 'Space') {
+        console.log('Space bar pressed');
+      }
+
+      // Backtick toggles debugd
+      if (e.key === '`') {
+        this.game.debug = !this.game.debug;
+      }
     });
     window.addEventListener('keyup', e => {
       this.game.keys[e.key.toLowerCase()] = false;
@@ -31,6 +39,12 @@ export class InputManager {
 
     window.addEventListener('blue', () => {
       this.game.keys = {};
+    });
+    window.addEventListener('contextmenu', () => {
+      return console.log('right click');
+    });
+    window.addEventListener('click', () => {
+      return console.log('left click');
     });
   }
 }

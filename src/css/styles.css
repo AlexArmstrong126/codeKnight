@@ -13,6 +13,7 @@ body {
 #gameContainer {
   display: flex;
   height: 100vh;
+  width: 100vw;
   position: relative;
   justify-content: center;
   align-items: center;
@@ -20,6 +21,11 @@ body {
 
 #gameCanvas {
   image-rendering: pixelated;
+  box-sizing: border-box;
+  max-width: calc(100vw);
+  max-height: calc(100vh);
+  margin: 15px;
+  border: 1px solid red;
 }
 
 /* UI Panel */
@@ -140,4 +146,6 @@ button:hover {
   font-size: 30px;
   color: white;
   font-weight: 700;
+}
+#TileMap_Village_Tester {
 }

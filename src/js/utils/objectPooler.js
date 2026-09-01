@@ -15,7 +15,7 @@ export class ObjectPooler {
       obj = this.pool.pop();
     } else {
       obj = this.factoryFn();
-      console.log(`[DEV] Pool expanded, new object created`);
+      // console.log(`[DEV] Pool expanded, new object created`);
     }
     this.active.push(obj);
     return obj;

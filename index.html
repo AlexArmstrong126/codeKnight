@@ -23,15 +23,16 @@
       <!-- Main Menu Panel -->
       <div id="mainMenu" class="ui-panel">
         <h1>Game Started</h1>
-        <button id="playBtn">Enter</button>
-        <button id="playBtn">GoToCV</button>
+        <button data-action="start">Enter</button>
+        <button data-action="start">GoToCV</button>
+        <button data-action="mute">Mute</button>
       </div>
 
       <!-- Pause Panel -->
       <div id="pauseMenu" class="ui-panel">
         <h2>PAUSED</h2>
-        <button id="resumeBtn">Resume</button>
-        <button id="quitBtn">QUIT TO MENU</button>
+        <button data-action="resume">Resume</button>
+        <button data-action="returnToMenu">QUIT TO MENU</button>
       </div>
 
       <!-- Loading Screen -->
@@ -43,10 +44,23 @@
       <!-- Game Over Screen -->
       <div id="gameOverMenu" class="ui-panel">
         <h2>GAME OVER</h2>
-        <button id="playAgainBtn">Retry</button>
-        <button id="quitFromGameOverBtn">QUIT TO MENU</button>
+        <button data-action="start">Retry</button>
+        <button data-action="returnToMenu">QUIT TO MENU</button>
+      </div>
+
+      <!-- Mission Complete Screen -->
+      <div id="missionCompleteMenu" class="ui-panel">
+        <h2>Mission Complete</h2>
+        <button data-action="start">Play Again</button>
+        <button data-action="returnToMenu">QUIT TO MENU</button>
       </div>
     </div>
+
+    <img
+      id="Full_Village_Testing_1"
+      src="./src/assets/tilemaps/village/Full_Village_Testing_1.png"
+      alt="Full_Village_Testing_1"
+    />
     <script type="module" src="./src/js/main.js"></script>
   </body>
 </html>

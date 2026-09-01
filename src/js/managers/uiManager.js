@@ -13,39 +13,31 @@ export class UIManager {
     this.pauseMenuEl = document.getElementById('pauseMenu');
     this.loadingScreenEl = document.getElementById('loadingScreen');
     this.gameOverMenuEl = document.getElementById('gameOverMenu');
-
-    // Buttons
-    this.playBtn = document.getElementById('playBtn');
-    this.playAgainBtn = document.getElementById('playAgainBtn');
-    this.resumeBtn = document.getElementById('resumeBtn');
-    this.quitBtn = document.getElementById('quitBtn');
-    this.quitFromGameOverBtn = document.getElementById('quitFromGameOverBtn');
+    this.missionCompleteMenuEl = document.getElementById('missionCompleteMenu');
 
     this.setUpEventListeners();
   }
   setUpEventListeners() {
-    this.playBtn?.addEventListener('click', () =>
-      this.events.emit(GAME_EVENTS.GAME_START),
-    );
-    this.playAgainBtn?.addEventListener('click', () =>
-      this.events.emit(GAME_EVENTS.GAME_START),
-    );
-    this.resumeBtn?.addEventListener('click', () =>
-      this.events.emit(GAME_EVENTS.GAME_RESUME),
-    );
-    this.quitBtn?.addEventListener('click', () =>
-      this.events.emit(GAME_EVENTS.GAME_RETURN_TO_MENU),
-    );
-    this.quitFromGameOverBtn?.addEventListener('click', () =>
-      this.events.emit(GAME_EVENTS.GAME_RETURN_TO_MENU),
-    );
-    [
-      this.playBtn,
-      this.resumeBtn,
-      this.quitBtn,
-      this.playAgainBtn,
-      this.quitFromGameOverBtn,
-    ].forEach(btn => {
+    document.querySelectorAll('[data-action="start"]').forEach(btn => {
+      btn?.addEventListener('click', () =>
+        this.events.emit(GAME_EVENTS.GAME_START),
+      );
+    });
+    document.querySelectorAll('[data-action="resume"]').forEach(btn => {
+      btn?.addEventListener('click', () =>
+        this.events.emit(GAME_EVENTS.GAME_RESUME),
+      );
+    });
+    document.querySelectorAll('[data-action="returnToMenu"]').forEach(btn => {
+      btn?.addEventListener('click', () =>
+        this.events.emit(GAME_EVENTS.GAME_RETURN_TO_MENU),
+      );
+    });
+    document.querySelectorAll('[data-action="mute"]').forEach(btn => {
+      btn?.addEventListener('click', () => this.events.emit(GAME_EVENTS.MUTE));
+    });
+
+    document.querySelectorAll('[data-action]').forEach(btn => {
       // btn?.addEventListener('mouseenter', () =>
       //   this.events.emit(GAME_EVENTS.SOUND, 'button_click'),
       // );
@@ -57,6 +49,7 @@ export class UIManager {
       this.pauseMenuEl,
       this.loadingScreenEl,
       this.gameOverMenuEl,
+      this.missionCompleteMenuEl,
     ].forEach(p => p?.classList.remove('active'));
   }
   showPanel(panelId) {

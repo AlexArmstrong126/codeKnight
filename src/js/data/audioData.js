@@ -7,4 +7,7 @@ export const audioData = [
   { name: 'castle_entrance1', path: './src/audio/castle_entrance1.mp3' },
   { name: 'sword_slash', path: './src/audio/sword_slash.mp3' },
   { name: 'player_hurt', path: './src/audio/player_hurt.mp3' },
+  // Enemy Sounds
+  { name: 'enemy_hurt_1', path: './src/audio/enemy_hurt_1.mp3' },
+  { name: 'enemy_hurt_2', path: './src/audio/enemy_hurt_2.mp3' },
 ];

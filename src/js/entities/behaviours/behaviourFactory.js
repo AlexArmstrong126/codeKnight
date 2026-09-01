@@ -10,9 +10,10 @@ export class BehaviourFactory {
       case ENEMY_BEHAVIOUR_TYPES.DRIFT:
         return new DriftBehaviour();
       default:
-        console.log(
-          `[DEV] ${behaviourType} is not connected to a particular behaviour`,
-        );
+        console
+          .log
+          // `[DEV] ${behaviourType} is not connected to a particular behaviour`,
+          ();
         return SeekBehaviour();
     }
   }
