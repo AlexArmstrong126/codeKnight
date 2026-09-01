@@ -2,8 +2,8 @@ import { ENEMY_BEHAVIOUR_TYPES, ENEMY_TYPES } from '../core/constants.js';
 
 export const enemyData = {
   skeleton: {
-    width: 64,
-    height: 64,
+    width: 32,
+    height: 32,
     speed: 160,
     health: 2,
     collisionRadius: 32,
@@ -18,8 +18,8 @@ export const enemyData = {
     },
   },
   bronzeKnight: {
-    width: 64,
-    height: 64,
+    width: 32,
+    height: 32,
     speed: 150,
     health: 1,
     collisionRadius: 32,

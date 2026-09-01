@@ -140,7 +140,7 @@ export class RenderSystem {
         if (enemy.facingLeft) {
           this.ctx.translate(
             enemy.x - this.cameraManager.cameraX + enemy.width,
-            enemy.y,
+            enemy.y - this.cameraManager.cameraY,
           );
           this.ctx.scale(-1, 1);
           this.ctx.drawImage(enemyAsset, 0, 0, enemy.width, enemy.height);

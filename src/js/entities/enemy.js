@@ -36,6 +36,8 @@ export class Enemy {
     this.y = y;
     this.health = this.data.health;
     this.active = true;
+    this.invincible = false;
+    this.invincibilityTimer = 0;
   }
   reset() {
     this.active = false;
@@ -59,17 +61,19 @@ export class Enemy {
       }
     }
 
-    if (
-      this.x < -GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN ||
-      this.x >
-        GAME_DIMENSIONS.GAME_WIDTH + GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN ||
-      this.y < -GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN ||
-      this.y >
-        GAME_DIMENSIONS.GAME_HEIGHT + GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN
-    ) {
-      this.active = false;
-      return;
-    }
+    // TODO: Fix Despawn timer for a different condition
+
+    // if (
+    //   this.x < -GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN ||
+    //   this.x >
+    //     GAME_DIMENSIONS.GAME_WIDTH + GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN ||
+    //   this.y < -GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN ||
+    //   this.y >
+    //     GAME_DIMENSIONS.GAME_HEIGHT + GAME_DIMENSIONS.ENEMY_DESPAWN_MARGIN
+    // ) {
+    //   this.active = false;
+    //   return;
+    // }
 
     if (this.pushVx !== 0 || this.pushVy !== 0) {
       this.x += this.pushVx * deltaTime;
