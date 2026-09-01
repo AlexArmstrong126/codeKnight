@@ -1,8 +1,8 @@
 import { SeekBehaviour } from './seekBehaviour.js';
 import { DriftBehaviour } from './driftBehaviour.js';
-import { ENEMY_BEHAVIOUR_TYPES } from '../../core/constants.js';
+import { ENEMY_BEHAVIOUR_TYPES } from '../../../core/constants.js';
 
-export class BehaviourFactory {
+export class enemyBehaviourFactory {
   static create(behaviourType) {
     switch (behaviourType) {
       case ENEMY_BEHAVIOUR_TYPES.SEEK:

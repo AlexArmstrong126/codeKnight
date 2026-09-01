@@ -1,4 +1,8 @@
-import { ENEMY_BEHAVIOUR_TYPES, ENEMY_TYPES } from '../core/constants.js';
+import {
+  ENEMY_BEHAVIOUR_TYPES,
+  ENEMY_TYPES,
+  PARTICLE_TYPES,
+} from '../core/constants.js';
 
 export const enemyData = {
   skeleton: {
@@ -10,11 +14,16 @@ export const enemyData = {
     damage: 10,
     imageName: 'skeleton_axe_right',
     behaviourType: ENEMY_BEHAVIOUR_TYPES.SEEK,
+    color: '#2b2e',
     pushbackForce: ENEMY_TYPES.LIGHT.pushbackForce,
     pushbackImmune: ENEMY_TYPES.LIGHT.pushbackImmune,
     sounds: {
       hit: 'enemy_hurt_1',
       death: 'enemy_hurt_1',
+    },
+    particles: {
+      hit: { type: PARTICLE_TYPES.SPARKS, count: 5, color: '#faf4fc' },
+      death: { type: PARTICLE_TYPES.IMPLOSION, count: 15, color: '#000000' },
     },
   },
   bronzeKnight: {
@@ -26,11 +35,16 @@ export const enemyData = {
     damage: 1,
     imageName: 'bronze_knight',
     behaviourType: ENEMY_BEHAVIOUR_TYPES.DRIFT,
+    color: '#FF0000',
     pushbackForce: ENEMY_TYPES.HEAVY.pushbackForce,
     pushbackImmune: ENEMY_TYPES.HEAVY.pushbackImmune,
     sounds: {
       hit: 'enemy_hurt_2',
       death: 'enemy_hurt_2',
+    },
+    particles: {
+      hit: { type: PARTICLE_TYPES.SPARKS, count: 10, color: '#b700ff' },
+      death: { type: PARTICLE_TYPES.SMOKE, count: 25, color: '#aaf007' },
     },
   },
 };

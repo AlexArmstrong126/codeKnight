@@ -14,6 +14,8 @@ import { CameraManager } from '../managers/cameraManager.js';
 import { CollisionSystem } from '../systems/collisionSystem.js';
 import { EventEmitter } from './eventEmitter.js';
 import { missionData } from '../data/missionData.js';
+import { ParticleManager } from '../managers/particleManager.js';
+import { DialogueManager } from '../managers/dialogueManager.js';
 
 export class Game {
   constructor() {
@@ -34,6 +36,8 @@ export class Game {
       this.collisionSystem,
       this.events,
     );
+    this.particleManager = new ParticleManager(this.events, this.cameraManager);
+    this.dialogueManager = new DialogueManager(this.audioManager);
 
     //  Systems
     this.renderSystem = new RenderSystem(
@@ -49,6 +53,7 @@ export class Game {
     // State
     this.state = {
       gameState: GAME_STATE.MENU,
+      missionCompleted: false,
     };
 
     this.keys = {};
@@ -111,6 +116,7 @@ export class Game {
 
     this.enemySpawnManager.update(deltaTime);
     this.enemyManager.update(deltaTime, this.player);
+    this.particleManager.update(deltaTime);
 
     this.collisionManager.update(this.player, activeEnemies);
 
@@ -120,6 +126,7 @@ export class Game {
   startGame() {
     this.state = {
       gameState: GAME_STATE.PLAYING,
+      missionCompleted: false,
     };
     this.uiManager.hideAllPanels();
     this.time = 0;
@@ -130,6 +137,7 @@ export class Game {
     this.player.resetPlayer();
     this.enemyManager.reset();
     this.enemySpawnManager.reset();
+    this.particleManager.reset();
     this.uiManager.updateHealthBar(this.player.health, this.player.maxHealth);
 
     this.lastTime = performance.now();
@@ -137,6 +145,7 @@ export class Game {
 
   pause() {
     this.state.gameState = GAME_STATE.PAUSED;
+    this.dialogueManager.testDialogueVoice();
     // this.events.emit(GAME_EVENTS.SOUND, 'bonus');
     this.uiManager.showPanel('pauseMenu');
   }
@@ -166,6 +175,7 @@ export class Game {
       this.state,
       this.player,
       activeEnemies,
+      this.particleManager.getActiveParticles(),
       this.debug,
     );
     requestAnimationFrame(t => this.gameLoop(t));
@@ -177,10 +187,12 @@ export class Game {
   }
   checkMissionConditions() {
     if (this.state.gameState !== GAME_STATE.PLAYING) return;
+    if (this.state.missionCompleted) return;
     if (
       this.enemiesKilled >= missionData.mission1.killCount ||
       this.time >= missionData.mission1.surviveTime
     ) {
+      this.state.missionCompleted = true;
       this.events.emit(GAME_EVENTS.MISSION_COMPLETE);
     }
   }

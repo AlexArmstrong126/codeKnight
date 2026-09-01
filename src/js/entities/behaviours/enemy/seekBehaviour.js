@@ -1,4 +1,4 @@
-import { getPythagorus } from '../../utils/getPythagorus.js';
+import { getPythagorus } from '../../../utils/getPythagorus.js';
 export class SeekBehaviour {
   constructor() {}
   update(enemy, dt, player) {

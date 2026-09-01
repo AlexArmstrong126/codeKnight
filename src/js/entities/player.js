@@ -19,6 +19,7 @@ export class Player {
     this.maxHealth = playerData.maxHealth;
     this.speedMultiplier = 1;
     this.health = playerData.maxHealth;
+    this.image = playerData.imageName;
 
     this.pushbackForce = playerData.pushbackForce;
     this.pushVx = 0;

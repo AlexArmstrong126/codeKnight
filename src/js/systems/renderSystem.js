@@ -19,8 +19,8 @@ export class RenderSystem {
     this.cameraManager = cameraManager;
   }
 
-  render(state, player, enemies = [], debug = false) {
-    if (state == GAME_STATE.MENU) {
+  render(state, player, enemies = [], particles = [], debug = false) {
+    if (state === GAME_STATE.MENU) {
       this.renderMenuBackGround();
     } else {
       //background
@@ -35,6 +35,7 @@ export class RenderSystem {
       this.renderGrid();
       this.renderEnemies(enemies);
       this.renderPlayer(player);
+      this.renderParticles(particles);
       if (debug) {
         this.renderDebugOverlay(player, enemies);
         this.renderCameraOverlay(player);
@@ -87,7 +88,7 @@ export class RenderSystem {
   }
 
   renderPlayer(player) {
-    const playerImage = this.imageManager.get('knight');
+    const playerImage = this.imageManager.get(player.image);
 
     if (player.invincible) {
       this.imageFlash(player.invincibilityTimer);
@@ -190,6 +191,19 @@ export class RenderSystem {
     );
     this.ctx.stroke();
 
+    for (const enemy of enemies) {
+      if (!enemy.active) return;
+      this.ctx.beginPath();
+      this.ctx.arc(
+        enemy.x - this.cameraManager.cameraX + enemy.width / 2,
+        enemy.y - this.cameraManager.cameraY + enemy.height / 2,
+        enemy.collisionRadius,
+        0,
+        Math.PI * 2,
+      );
+      this.ctx.stroke();
+    }
+
     this.ctx.restore();
   }
   renderTileMap() {
@@ -236,5 +250,18 @@ export class RenderSystem {
     );
 
     this.ctx.restore();
+  }
+  renderParticles(particles) {
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      if (!p.active) continue;
+      if (p.fade) {
+        this.ctx.globalAlpha = 1 - p.age / p.lifetime;
+      }
+      this.ctx.fillStyle = p.color;
+      this.ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+      this.ctx.globalAlpha = 1;
+    }
   }
 }
