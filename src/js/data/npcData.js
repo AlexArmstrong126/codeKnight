@@ -1,22 +1,29 @@
 export const npcData = {
   dwarf: {
-    width: 64,
-    height: 64,
+    width: 32,
+    height: 32,
     mainImage: 'dwarf',
+    dialogueVoice: 'dwarf',
   },
+
   oldMan: {
-    width: 64,
-    height: 64,
+    width: 32,
+    height: 32,
     mainImage: 'oldMan',
+    dialogueVoice: 'oldMan',
   },
+
   villageLady: {
-    width: 64,
-    height: 64,
+    width: 32,
+    height: 32,
     mainImage: 'villageLady',
+    dialogueVoice: 'lady',
   },
+
   castleGuard: {
-    width: 64,
-    height: 64,
+    width: 32,
+    height: 32,
     mainImage: 'castleGuard',
+    dialogueVoice: 'guard',
   },
 };
