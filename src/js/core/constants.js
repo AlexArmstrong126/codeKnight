@@ -19,6 +19,17 @@ export const ENEMY_BEHAVIOUR_TYPES = {
   DRIFT: 'drift',
 };
 
+export const PARTICLE_BEHAVIOUR_TYPES = {
+  RADIAL: 'radial',
+  IMPLOSION: 'implosion',
+};
+
+export const PARTICLE_TYPES = {
+  SPARKS: 'sparks',
+  SMOKE: 'smoke',
+  IMPLOSION: 'implosion',
+};
+
 export const ENEMY_TYPES = {
   NORMAL: {
     pushbackForce: 100,
@@ -42,6 +53,8 @@ export const ENEMY_SPAWN = {
 
 export const ENEMY_HIT_INVINCIBILITY_DURATION = 2;
 export const PUSHBACK_DECAY = 800;
+export const PARTICLE_POOL_SIZE = 200;
+export const ENEMY_POOL_SIZE = 10;
 
 export const GAME_EVENTS = {
   // Audio
